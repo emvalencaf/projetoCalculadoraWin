@@ -94,6 +94,14 @@
         font-size: 48px;
         font-weight: 600;
     }
+    #displayHistory{
+        color: #000;
+        text-align: right;
+        position: absolute;
+        width: 100%;
+        font-size: 48px;
+        font-weight: 600;
+    }
     .btn-number {
         background-color: #EFEFEF;
         font-size: 24px;
@@ -114,6 +122,9 @@
     <div class="center">
         <div id="calculadora">
             <header>
+                <div id="displayHistory">
+                    
+                </div>
                 <div id="display">
                     
                 </div>
@@ -128,7 +139,7 @@
                 <div class="row">
                     <button type="button" class="btn btn-others col-sm" data-calc="CE">CE</button>
                     <button type="button" class="btn btn-others col-sm" data-calc="C">C</button>
-                    <button type="button" class="btn btn-others col-sm">←</button>
+                    <button type="button" class="btn btn-others col-sm" data-calc="←">←</button>
                     <button type="button" class="btn btn-others col-sm" data-calc="/">÷</button>
                 </div>
                 <div class="row">
