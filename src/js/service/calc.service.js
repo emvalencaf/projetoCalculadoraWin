@@ -34,6 +34,7 @@ export class CalcService{
         this.#_lastOperator = ''
         this.#_previousNumber = ''
     }
+    
         //apaga todos dados da entrada
     clearEntry(){
         
@@ -41,6 +42,7 @@ export class CalcService{
 
         return this.operation.pop()
     }
+
         //apaga os dígitos da entrada
     backspaceEntry(){
 
@@ -67,6 +69,7 @@ export class CalcService{
     setLastOperation(value){
         return this.#_operation[this.operation.length - 1] = value
     }
+
     getLastOperator(){
         return this.operation[this.operation.length - 1]
     }
@@ -139,7 +142,9 @@ export class CalcService{
     }
 
         //calculadora
+
         //squareNumber
+
     getSquareNumber(){
         console.log(this.operation)
         const lastNumber = this.getLastItem(false)
@@ -150,6 +155,7 @@ export class CalcService{
         return display
     }
         //reciprocal
+
     getReciprocal(){
         console.log(this.operation)
         const lastNumber = this.getLastItem(false)
@@ -159,7 +165,9 @@ export class CalcService{
         this.setLastOperation(result)
         return display
     }
+
         //squareRootNumber
+
     getSquareRootNumber(){
         console.log(this.operation)
         const lastNumber = this.getLastItem(false)
@@ -169,6 +177,7 @@ export class CalcService{
         this.setLastOperation(Math.sqrt(lastNumber))
         return display
     }
+
         //plus and minus number
     getPlusMinus(){
         
@@ -222,7 +231,6 @@ export class CalcService{
         let result = this.getResult()
 
         if(this.#_lastOperator === "%") {
-            debugger
             result /= 100
             last = null
         }
