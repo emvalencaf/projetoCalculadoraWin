@@ -56,16 +56,34 @@ class CalcController{
 
         }
 
+        if(dataCalc === "1/x"){
+
+            const cb = () =>{
+
+                const reciprocal = calcController.service.getReciprocal()
+                calcController.setDisplayHistory(reciprocal)
+            }
+        
+        }
+
         if(dataCalc === "pow"){
 
-            try{
+            const cb = () =>{
 
-                
-                calcController.setDisplayHistory(calcController.service.getSquareNumber())
-            }catch(e){
-                calcController.setError()
-                console.log(e)
+                const squareNumber = calcController.service.getSquareNumber()
+                calcController.setDisplayHistory(squareNumber)
+
             }
+
+            calcController.debuggerOperation(cb)
+            //try{
+                
+                //calcController.setDisplayHistory(calcController.service.getSquareNumber())
+            
+            //}catch(e){
+                //calcController.setError()
+                //console.log(e)
+            //}
             return
         }
 
@@ -87,14 +105,14 @@ class CalcController{
         this.view.display = this.service.getLastItem(false)
         
         if(!value){
-
+            let setFirstNumber = this.service.previousNumber || this.service.operation.join("")
             this.service.operation.length === 1 ?
-                this.view.displayHistory = this.service.operation.join("") + this.service.lastOperator + this.service.lastNumber + "=" :
-                this.view.displayHistory = this.service.operation.join("")
+                this.view.displayHistory = setFirstNumber + this.service.lastOperator + this.service.lastNumber + "=" :
+                this.view.displayHistory = setFirstNumber
             return        
         }
         
-        this.view.displayHistory = value    
+        this.view.displayHistory = value
 
     }
 
@@ -105,7 +123,7 @@ class CalcController{
         
         if(value) return this.view.display = value
         
-        if(this.service.operation.length > 2) return
+        if(this.service.operation.length >= 2) return this.setDisplayHistory()
         
         this.view.display = this.service.operation.join("")
     }
@@ -147,7 +165,10 @@ class CalcController{
 
     backspaceEntry(){
         this.service.backspaceEntry()
-        this.view.display = this.service.operation.join("")
+        
+        if(this.service.operation.length < 2) return this.setDisplay()
+
+        this.setDisplayHistory()
     }
     
         //operação

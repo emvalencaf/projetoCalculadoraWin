@@ -1,7 +1,8 @@
 export class CalcService{
     #_operation = []
-    #_lastNumber
-    #_lastOperator
+    #_lastNumber = ''
+    #_previousNumber = ''
+    #_lastOperator = ''
 
     //getters e setter
     get operation(){
@@ -11,7 +12,11 @@ export class CalcService{
     set operation(value){
         return this.#_operation.push(value)
     }
-
+    
+    get previousNumber(){
+        return this.#_previousNumber
+    }
+    
     get lastNumber(){
         return this.#_lastNumber
     }
@@ -25,14 +30,36 @@ export class CalcService{
         //apaga todos os dados
     clearAll(){
         this.#_operation = []
+        this.#_lastNumber = 0
+        this.#_lastOperator = ''
+        this.#_previousNumber = ''
     }
         //apaga todos dados da entrada
     clearEntry(){
+        
+        if(this.isOperator(this.getLastOperator())) return
 
+        return this.operation.pop()
     }
         //apaga os dígitos da entrada
     backspaceEntry(){
 
+        let lastNumber = this.getLastOperator()
+
+        if(!lastNumber) return
+
+        if(isNaN(lastNumber)) return
+
+        const indexLastNumber = this.operation.indexOf(lastNumber)
+
+        if(typeof lastNumber !== "string") lastNumber.toString()
+
+        lastNumber = lastNumber.slice(0, -1)
+
+        console.log(lastNumber)
+
+        this.operation[indexLastNumber] = lastNumber
+        console.log(this.operation)
     }
 
         //adicionando operações
@@ -102,6 +129,7 @@ export class CalcService{
 
 
     getResult(){
+        this.#_previousNumber = this.operation[0]
         return eval(this.operation.join(""))
     }
 
@@ -114,11 +142,17 @@ export class CalcService{
         return display
     }
     
+    getReciprocal(){
+        console.log(this.operation)
+        
+    }
+
     calc(){
 
         let last
 
         this.#_lastOperator = this.getLastItem(true)
+
 
         if(this.operation.length < 3){
             
@@ -131,7 +165,7 @@ export class CalcService{
 
             last = this.#_operation.pop()
 
-            this.#_lastNumber = this.getResult()
+            this.#_lastNumber = this.getResult().toString()
 
         } else if(this.#_operation.length === 3){
 
@@ -146,7 +180,7 @@ export class CalcService{
             last = null
         }
 
-        this.#_operation = [result]
+        this.#_operation = [result.toString()]
 
         if(last) this.operation = last 
 

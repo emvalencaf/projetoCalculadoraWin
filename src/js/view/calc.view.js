@@ -20,7 +20,7 @@ class CalcView{
 
     clearAll(){
         this.displayHistory = ''
-        this.display = ''
+        this.display = '0'
     }
     //métodos para adcionar + um evento a um elemento no DOM
 
