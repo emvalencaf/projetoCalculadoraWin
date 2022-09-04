@@ -23,4 +23,4 @@ Ademais, além do objetivo de melhorar a divisão de responsabilidades , foi des
 
 Tais funcionalidades foram implementadas para aproximar-se as da calculadora do Windows, chegando próximo a uma réplica fidedigna a ela - com algumas poucas diferenças em relação a exibição do histórico. Em suma, a calculadora desenvolvida neste projeto é bastante fiel ao seu alvo se distinguindo em minuciosos detalhes que não comprometem a acessibilidade do usuário ou uso da calculadora em si.
 
-A funcionalidade do botão % está ligeiramente diferente entre a da calculadora do Windows.
+Observação: a funcionalidade do botão % está ligeiramente diferente entre a da calculadora do Windows.
