@@ -47,6 +47,7 @@ class CalcController{
         this.view = view
         this.service = service
 
+
         this.setDisplay('0')
     }
     
@@ -72,6 +73,8 @@ class CalcController{
 
         const dataCalc = e.currentTarget.getAttribute('data-calc')
 
+        calcController.playAudio()
+
         console.log(dataCalc)
         
         let cb
@@ -81,59 +84,6 @@ class CalcController{
             cb = () => calcController.addOperator(dataCalc)
 
         calcController.debuggerOperation(cb)
-/*
-        if(dataCalc === 'C') return calcController.clearAll()
-
-        if(dataCalc === 'CE') return calcController.clearEntry()
-
-        if(dataCalc === '←') return  calcController.backspaceEntry()
-
-        if(dataCalc === "=") {
-
-            cb = () =>{
-                
-                calcController.service.calc()
-                calcController.setDisplayHistory()
-            }
-
-        }
-
-        if(dataCalc === "1/x"){
-
-            cb = () =>{
-
-                const reciprocal = calcController.service.getReciprocal()
-                calcController.setDisplayHistory(reciprocal)
-                return
-            }
-
-        }
-
-        if(dataCalc === "pow"){
-
-            cb = () =>{
-
-                const squareNumber = calcController.service.getSquareNumber()
-                calcController.setDisplayHistory(squareNumber)
-                
-            }
-
-
-        }
-
-        if(dataCalc === ".") {
-
-            cb = () => {
-
-                calcController.service.addDot()
-                calcController.setDisplay()
-            }
-        
-        }
-
-        if(!cb) cb = () => calcController.addOperator(dataCalc)
-
-        calcController.debuggerOperation(cb)*/
 
     }
 
