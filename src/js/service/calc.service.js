@@ -3,6 +3,7 @@ export class CalcService{
     #_lastNumber
     #_lastOperator
 
+    //getters e setter
     get operation(){
         return this.#_operation
     }
@@ -11,6 +12,13 @@ export class CalcService{
         return this.#_operation.push(value)
     }
 
+    get lastNumber(){
+        return this.#_lastNumber
+    }
+
+    get lastOperator(){
+        return this.#_lastOperator
+    }
 
     //manipulação dos dados
 
@@ -56,41 +64,74 @@ export class CalcService{
 
         //adicionando o dígito
         this.operation = value
-
+        console.log(this.operation)
         if(this.operation.length > 3) this.calc()
     }
 
-    setLastNumberToDisplay(){
+    getLastItem(isOperator = true){
+
+        let lastItem
 
         for(let i = this.operation.length - 1; i >= 0; i --){
 
-            if(!this.isOperator(this.operation[i])){
-                this.#_lastNumber = this.operation[i]
+            if(this.isOperator(this.operation[i]) === isOperator){
+                lastItem = this.operation[i]
                 break
             }
 
         }
+
+        if(!lastItem) lastItem = isOperator? this.#_lastOperator : this.#_lastNumber
         
-        return this.#_lastNumber
+        return lastItem
+    }
+
+    setLastNumber(){
+        
+        return this.#_lastNumber = this.getLastItem(false)
+    }
+
+    getResult(){
+        return eval(this.operation.join(""))
     }
 
         //calculadora
     calc(){
 
-        let last = this.operation.pop()
+        let last
 
-        let result = eval(this.operation.join(""))
+        this.#_lastOperator = this.getLastItem(true)
 
-        if(last === "%") {
+        if(this.operation.length < 3){
             
-            result /= 100
-            this.#_operation = [result]
+            let firstItem = this.#_operation[0]
 
-        } else {
+            this.#_operation = [firstItem, this.#_lastOperator, this.#_lastNumber]
+        }
 
-            this.#_operation = [result, last]
+        if(this.#_operation.length > 3){
+
+            last = this.#_operation.pop()
+
+            this.#_lastNumber = this.getResult()
+
+        } else if(this.#_operation.length === 3){
+
+            this.#_lastNumber = this.getLastItem(false)
 
         }
+
+        let result = this.getResult()
+
+        if(this.#_lastOperator === "%") {
+            result /= 100
+            last = null
+        }
+
+        this.#_operation = [result]
+
+        if(last) this.operation = last 
+
         
         console.log(this.operation)
     }

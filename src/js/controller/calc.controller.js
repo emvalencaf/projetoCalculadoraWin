@@ -42,6 +42,12 @@ class CalcController{
 
         if(dataCalc === '←') return  calcController.backspaceEntry()
 
+        if(dataCalc === "=") {
+            
+            calcController.service.calc()
+            calcController.setDisplayHistory()
+            return
+        }
 
         calcController.addOperator(dataCalc)
 
@@ -51,8 +57,13 @@ class CalcController{
 
         //manipulando display do histórico
     setDisplayHistory(){
-        this.view.displayHistory = this.service.operation.join("")
-        this.view.display = this.setLastNumberToDisplay()
+        console.log("this is the operation",this.service.operation)
+        console.log("this is the last number",this.service.lastNumber)
+        console.log("this is the last operator",this.service.lastOperator)
+        this.service.operation.length === 1 ?
+            this.view.displayHistory = this.service.operation.join("") + this.service.lastOperator + this.service.lastNumber + "=" :
+            this.view.displayHistory = this.service.operation.join("")
+        this.view.display = this.service.getLastItem(false)
     }
         //manipulando display
 
@@ -98,7 +109,7 @@ class CalcController{
     }
         //último número da operação
     setLastNumberToDisplay(){
-        return this.service.setLastNumberToDisplay().toString()
+        return this.service.setLastNumber().toString()
     }
 }
 
