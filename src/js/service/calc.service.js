@@ -30,7 +30,7 @@ export class CalcService{
         //apaga todos os dados
     clearAll(){
         this.#_operation = []
-        this.#_lastNumber = 0
+        this.#_lastNumber = ''
         this.#_lastOperator = ''
         this.#_previousNumber = ''
     }
@@ -72,6 +72,11 @@ export class CalcService{
     }
 
     isOperator(value){
+        
+        if(!isNaN(value)) return false
+
+        if(value.indexOf('(') > -1) return false
+
         return (['+','-','=','/','*','%'].indexOf(value) > -1)
     }
 
@@ -134,22 +139,67 @@ export class CalcService{
     }
 
         //calculadora
-
+        //squareNumber
     getSquareNumber(){
         console.log(this.operation)
-        const display = `sqr(${this.getLastItem(false)})`
-        this.setLastOperation(Math.pow(parseFloat(this.getLastItem(false)), 2))
+        const lastNumber = this.getLastItem(false)
+        if(!lastNumber) throw Error()
+        const display = `sqr(${lastNumber})`
+        this.#_previousNumber = display
+        this.setLastOperation(Math.pow(parseFloat(lastNumber), 2))
         return display
     }
-    
+        //reciprocal
     getReciprocal(){
         console.log(this.operation)
+        const lastNumber = this.getLastItem(false)
+        if(!lastNumber) throw Error()
+        const display = `1/(${lastNumber})`
+        const result = eval(display)
+        this.setLastOperation(result)
+        return display
+    }
+        //squareRootNumber
+    getSquareRootNumber(){
+        console.log(this.operation)
+        const lastNumber = this.getLastItem(false)
+        if(!lastNumber) throw Error()
+        const display = `√(${lastNumber})`
+        this.#_previousNumber = display
+        this.setLastOperation(Math.sqrt(lastNumber))
+        return display
+    }
+        //plus and minus number
+    getPlusMinus(){
         
+        let lastNumber = this.getLastItem(false)
+
+        if(lastNumber === null || lastNumber === undefined || lastNumber === '') throw Error()
+
+        if(typeof lastNumber === 'string' && lastNumber.indexOf('(') > - 1 ) {
+            lastNumber = lastNumber.replace('(', '').replace(')','')
+        }
+        
+        console.log(lastNumber)
+
+        lastNumber *= -1
+
+        if(lastNumber < 0) lastNumber = `(${lastNumber})`
+
+
+
+        this.setLastOperation(lastNumber)
+        //if(lastNumber) throw Error()
+
+        //let display
+        //lastNumberdisplay.indexOf('(') = `(${lastNumber})`
+        //this.setLastOperation(display)
+        return
     }
 
     calc(){
 
-        let last
+        //let last
 
         this.#_lastOperator = this.getLastItem(true)
 
@@ -175,14 +225,14 @@ export class CalcService{
 
         let result = this.getResult()
 
-        if(this.#_lastOperator === "%") {
-            result /= 100
-            last = null
-        }
+        //if(this.#_lastOperator === "%") {
+            //result /= 100
+            //last = null
+        //}
 
         this.#_operation = [result.toString()]
 
-        if(last) this.operation = last 
+        //if(last) this.operation = last 
 
         
         console.log(this.operation)

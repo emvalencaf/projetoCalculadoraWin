@@ -6,6 +6,46 @@ import { calcView } from "../view/calc.view.js"
     //classe
 
 class CalcController{
+    #_operation_functions = {
+        "C": () => calcController.clearAll(),
+        "CE": () => calcController.clearEntry(),
+        '←': () => calcController.backspaceEntry(),
+        '=': () =>{
+                
+            calcController.service.calc()
+            calcController.setDisplayHistory()
+        },
+        '1/x': () =>{
+
+            const reciprocal = calcController.service.getReciprocal()
+            calcController.setDisplayHistory(reciprocal)
+            return
+        },
+        'pow': () =>{
+
+            const squareNumber = calcController.service.getSquareNumber()
+            calcController.setDisplayHistory(squareNumber)
+            
+        },
+        '.': () => {
+
+            calcController.service.addDot()
+            calcController.setDisplay()
+        },
+        '√': () => {
+            const sqtrNumber = calcController.service.getSquareRootNumber()
+            calcController.setDisplayHistory(sqtrNumber)
+        },
+        '+-': () =>{
+            const positiveNegative = calcController.service.getPlusMinus()
+            calcController.setDisplayHistory(positiveNegative)
+        },
+        '%': () =>{
+            const getPercent = calcController.service.getPercent()
+        }
+
+    }
+
     constructor(view, service){
         this.view = view
         this.service = service
@@ -34,8 +74,17 @@ class CalcController{
     btnExec(e){
 
         const dataCalc = e.currentTarget.getAttribute('data-calc')
-        console.log(dataCalc)
 
+        console.log(dataCalc)
+        
+        let cb
+        
+        Object.keys(calcController.#_operation_functions).indexOf(dataCalc) > -1?
+            cb = calcController.#_operation_functions[dataCalc]:
+            cb = () => calcController.addOperator(dataCalc)
+
+        calcController.debuggerOperation(cb)
+/*
         if(dataCalc === 'C') return calcController.clearAll()
 
         if(dataCalc === 'CE') return calcController.clearEntry()
@@ -44,56 +93,50 @@ class CalcController{
 
         if(dataCalc === "=") {
 
-            try{
+            cb = () =>{
                 
                 calcController.service.calc()
                 calcController.setDisplayHistory()
-                return
-                
-            } catch(e){
-                calcController.setError()
             }
 
         }
 
         if(dataCalc === "1/x"){
 
-            const cb = () =>{
+            cb = () =>{
 
                 const reciprocal = calcController.service.getReciprocal()
                 calcController.setDisplayHistory(reciprocal)
+                return
             }
-        
+
         }
 
         if(dataCalc === "pow"){
 
-            const cb = () =>{
+            cb = () =>{
 
                 const squareNumber = calcController.service.getSquareNumber()
                 calcController.setDisplayHistory(squareNumber)
-
+                
             }
 
-            calcController.debuggerOperation(cb)
-            //try{
-                
-                //calcController.setDisplayHistory(calcController.service.getSquareNumber())
-            
-            //}catch(e){
-                //calcController.setError()
-                //console.log(e)
-            //}
-            return
+
         }
 
         if(dataCalc === ".") {
-            calcController.service.addDot()
-            calcController.setDisplay()
-            return
+
+            cb = () => {
+
+                calcController.service.addDot()
+                calcController.setDisplay()
+            }
+        
         }
 
-        calcController.addOperator(dataCalc)
+        if(!cb) cb = () => calcController.addOperator(dataCalc)
+
+        calcController.debuggerOperation(cb)*/
 
     }
 
@@ -113,7 +156,7 @@ class CalcController{
         }
         
         this.view.displayHistory = value
-
+        return
     }
 
     
@@ -126,6 +169,7 @@ class CalcController{
         if(this.service.operation.length >= 2) return this.setDisplayHistory()
         
         this.view.display = this.service.operation.join("")
+        return
     }
     
     //tratar operações
@@ -140,6 +184,7 @@ class CalcController{
             this.setError()
 
         }
+        return
     }
     
     setError(){
@@ -153,14 +198,14 @@ class CalcController{
 
         this.service.clearAll()
         this.view.clearAll()
-
+        return
     }
         //Apaga a entrada da operação na calculadora
     clearEntry(){
 
         this.service.clearEntry()
         this.view.display = this.service.operation.join("")
-
+        return
     }
 
     backspaceEntry(){
@@ -169,6 +214,7 @@ class CalcController{
         if(this.service.operation.length < 2) return this.setDisplay()
 
         this.setDisplayHistory()
+        return
     }
     
         //operação
