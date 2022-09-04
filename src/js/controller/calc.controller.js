@@ -43,9 +43,35 @@ class CalcController{
         if(dataCalc === '←') return  calcController.backspaceEntry()
 
         if(dataCalc === "=") {
-            
-            calcController.service.calc()
-            calcController.setDisplayHistory()
+
+            try{
+                
+                calcController.service.calc()
+                calcController.setDisplayHistory()
+                return
+                
+            } catch(e){
+                calcController.setError()
+            }
+
+        }
+
+        if(dataCalc === "pow"){
+
+            try{
+
+                
+                calcController.setDisplayHistory(calcController.service.getSquareNumber())
+            }catch(e){
+                calcController.setError()
+                console.log(e)
+            }
+            return
+        }
+
+        if(dataCalc === ".") {
+            calcController.service.addDot()
+            calcController.setDisplay()
             return
         }
 
@@ -56,25 +82,52 @@ class CalcController{
     //setDisplay
 
         //manipulando display do histórico
-    setDisplayHistory(){
-        console.log("this is the operation",this.service.operation)
-        console.log("this is the last number",this.service.lastNumber)
-        console.log("this is the last operator",this.service.lastOperator)
-        this.service.operation.length === 1 ?
-            this.view.displayHistory = this.service.operation.join("") + this.service.lastOperator + this.service.lastNumber + "=" :
-            this.view.displayHistory = this.service.operation.join("")
+    setDisplayHistory(value){
+
         this.view.display = this.service.getLastItem(false)
+        
+        if(!value){
+
+            this.service.operation.length === 1 ?
+                this.view.displayHistory = this.service.operation.join("") + this.service.lastOperator + this.service.lastNumber + "=" :
+                this.view.displayHistory = this.service.operation.join("")
+            return        
+        }
+        
+        this.view.displayHistory = value    
+
     }
-        //manipulando display
 
+    
+    //manipulando display
+    
     setDisplay(value){
-
+        
         if(value) return this.view.display = value
-
+        
         if(this.service.operation.length > 2) return
         
         this.view.display = this.service.operation.join("")
     }
+    
+    //tratar operações
+    debuggerOperation(cb){
+    
+        try{
+
+            cb()
+
+        }catch(e){
+
+            this.setError()
+
+        }
+    }
+    
+    setError(){
+        return this.view.display = 'ERROR'
+    }
+
     //manipulação dos dados da calculadora
 
         //Apaga todos os dados da calculadora
@@ -107,10 +160,7 @@ class CalcController{
             this.setDisplay()
 
     }
-        //último número da operação
-    setLastNumberToDisplay(){
-        return this.service.setLastNumber().toString()
-    }
+
 }
 
 

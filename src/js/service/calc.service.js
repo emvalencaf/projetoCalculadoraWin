@@ -35,13 +35,17 @@ export class CalcService{
 
     }
 
+        //adicionando operações
 
+    setLastOperation(value){
+        return this.#_operation[this.operation.length - 1] = value
+    }
     getLastOperator(){
         return this.operation[this.operation.length - 1]
     }
 
     isOperator(value){
-        return (['+','-','=','/','*','**','%'].indexOf(value) > -1)
+        return (['+','-','=','/','*','%'].indexOf(value) > -1)
     }
 
     addOperator(value){
@@ -67,7 +71,17 @@ export class CalcService{
         console.log(this.operation)
         if(this.operation.length > 3) this.calc()
     }
+    
 
+    addDot(){
+        let lastOperation = this.getLastOperator()
+
+        this.isOperator(lastOperation) || !lastOperation?
+            this.operation = "0.":
+            this.setLastOperation(lastOperation.toString() + ".")
+    }
+
+        //métodos auxliares ao cálculo
     getLastItem(isOperator = true){
 
         let lastItem
@@ -86,16 +100,20 @@ export class CalcService{
         return lastItem
     }
 
-    setLastNumber(){
-        
-        return this.#_lastNumber = this.getLastItem(false)
-    }
 
     getResult(){
         return eval(this.operation.join(""))
     }
 
         //calculadora
+
+    getSquareNumber(){
+        console.log(this.operation)
+        const display = `sqr(${this.getLastItem(false)})`
+        this.setLastOperation(Math.pow(parseFloat(this.getLastItem(false)), 2))
+        return display
+    }
+    
     calc(){
 
         let last

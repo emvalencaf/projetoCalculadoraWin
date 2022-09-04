@@ -7,7 +7,7 @@ class CalcView{
     }
 
     set displayHistory(value){
-        return this.#_displayHistory.textContent = value.toString()
+        return this.#_displayHistory.textContent = value
     }
 
     get display(){
