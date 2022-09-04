@@ -73,8 +73,6 @@ class CalcController{
 
         const dataCalc = e.currentTarget.getAttribute('data-calc')
 
-        calcController.playAudio()
-
         console.log(dataCalc)
         
         let cb
