@@ -39,9 +39,6 @@ class CalcController{
         '+-': () =>{
             const positiveNegative = calcController.service.getPlusMinus()
             calcController.setDisplayHistory(positiveNegative)
-        },
-        '%': () =>{
-            const getPercent = calcController.service.getPercent()
         }
 
     }
@@ -182,7 +179,7 @@ class CalcController{
         }catch(e){
 
             this.setError()
-
+            console.log(e)
         }
         return
     }

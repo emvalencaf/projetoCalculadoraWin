@@ -189,17 +189,13 @@ export class CalcService{
 
 
         this.setLastOperation(lastNumber)
-        //if(lastNumber) throw Error()
 
-        //let display
-        //lastNumberdisplay.indexOf('(') = `(${lastNumber})`
-        //this.setLastOperation(display)
         return
     }
 
     calc(){
 
-        //let last
+        let last 
 
         this.#_lastOperator = this.getLastItem(true)
 
@@ -225,14 +221,15 @@ export class CalcService{
 
         let result = this.getResult()
 
-        //if(this.#_lastOperator === "%") {
-            //result /= 100
-            //last = null
-        //}
+        if(this.#_lastOperator === "%") {
+            debugger
+            result /= 100
+            last = null
+        }
 
         this.#_operation = [result.toString()]
 
-        //if(last) this.operation = last 
+        if(last) this.operation = last 
 
         
         console.log(this.operation)
