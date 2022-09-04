@@ -18,7 +18,10 @@ class CalcView{
         return this.#_display.textContent = value.toString()
     }
 
-
+    clearAll(){
+        this.displayHistory = ''
+        this.display = ''
+    }
     //métodos para adcionar + um evento a um elemento no DOM
 
     addEventListenerAll(element, events, cb){

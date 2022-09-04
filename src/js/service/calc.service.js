@@ -33,7 +33,7 @@ export class CalcService{
     }
 
     isOperator(value){
-        return (['+','-','=','/','*','**'].indexOf(value) > -1)
+        return (['+','-','=','/','*','**','%'].indexOf(value) > -1)
     }
 
     addOperator(value){
@@ -76,11 +76,22 @@ export class CalcService{
 
         //calculadora
     calc(){
+
         let last = this.operation.pop()
 
-        const result = eval(this.operation.join(""))
+        let result = eval(this.operation.join(""))
 
-        this.#_operation = [result, last]
+        if(last === "%") {
+            
+            result /= 100
+            this.#_operation = [result]
+
+        } else {
+
+            this.#_operation = [result, last]
+
+        }
+        
         console.log(this.operation)
     }
 }

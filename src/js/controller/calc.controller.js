@@ -9,6 +9,8 @@ class CalcController{
     constructor(view, service){
         this.view = view
         this.service = service
+
+        this.setDisplay('0')
     }
     
     //adicionando eventos aos botões da calculadora
@@ -54,7 +56,9 @@ class CalcController{
     }
         //manipulando display
 
-    setDisplay(){
+    setDisplay(value){
+
+        if(value) return this.view.display = value
 
         if(this.service.operation.length > 2) return
         
